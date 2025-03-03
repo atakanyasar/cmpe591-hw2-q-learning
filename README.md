@@ -1,3 +1,9 @@
+## Run
+Training:
+```
+python train.py
+```
+
 ## Reward function
 ```py
 def custom_reward(self, state, prev_state):
