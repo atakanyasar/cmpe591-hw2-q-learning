@@ -1,8 +1,20 @@
+## Examples
+https://github.com/user-attachments/assets/c8b78d69-9113-4db7-a81e-93b7d8872999
+
+
+https://github.com/user-attachments/assets/86785d21-764c-47cc-b903-380cbc85ae29
+
+
+https://github.com/user-attachments/assets/94c52998-ae1b-45cd-b6a6-9308888e11a4
+
+
+
 ## Run
-Training:
+* For training:
 ```
 python train.py
 ```
+* To test: run `test.ipynb`
 
 ## Reward function
 ```py
@@ -53,4 +65,5 @@ def custom_reward(self, state, prev_state):
 * gamma=0.95
 * buffer_size=1000000
 
-![image](https://github.com/user-attachments/assets/c98c70e9-a7f0-4755-8193-3ac11ecc16da)
+![image](https://github.com/user-attachments/assets/7afd10dd-ba77-4538-ab3f-081d39fb8c0f)
+
