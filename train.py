@@ -7,6 +7,7 @@ from dqn import DQN
 from config import Config
 from dqn import get_target, init_target
 import csv
+import pandas as pd
 
 def train(config: Config, dqn: DQN):
     env = Hw2Env(n_actions=config.action_dim, render_mode="offscreen")
@@ -107,11 +108,27 @@ def train(config: Config, dqn: DQN):
     plot_results(rewards_history, rps_history)
 
 def plot_results(rewards, rps):
+    window_size = 100
+
+    rewards = np.clip(rewards, -0.3, 0.3)
+    rps = np.clip(rps, -0.3, 0.3)
+
+    plt.figure(figsize=(12, 5))
+
+    # Convert to pandas Series for rolling average
+    rewards_series = pd.Series(rewards)
+    rps_series = pd.Series(rps)
+
+    # Compute rolling averages
+    rewards_smoothed = rewards_series.rolling(window=window_size, min_periods=1).mean()
+    rps_smoothed = rps_series.rolling(window=window_size, min_periods=1).mean()
+
     plt.figure(figsize=(12, 5))
 
     # Cumulative Reward Plot
     plt.subplot(1, 2, 1)
-    plt.plot(rewards, label="Cumulative Reward", color="blue")
+    plt.plot(rewards_series, alpha=0.3, label="Raw Cumulative Reward", color="gray")
+    plt.plot(rewards_smoothed, label=f"Smoothed (window={window_size})", color="blue")
     plt.xlabel("Episodes")
     plt.ylabel("Cumulative Reward")
     plt.title("Training Progress - Reward")
@@ -119,7 +136,8 @@ def plot_results(rewards, rps):
 
     # Rewards Per Step (RPS) Plot
     plt.subplot(1, 2, 2)
-    plt.plot(rps, label="RPS", color="green")
+    plt.plot(rps_series, alpha=0.3, label="Raw RPS", color="gray")
+    plt.plot(rps_smoothed, label=f"Smoothed (window={window_size})", color="green")
     plt.xlabel("Episodes")
     plt.ylabel("Rewards Per Step")
     plt.title("Training Progress - RPS")
