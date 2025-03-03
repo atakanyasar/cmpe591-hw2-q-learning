@@ -38,7 +38,21 @@ def custom_reward(self, state, prev_state):
 * 6 - current high level state 
 * 4 - previous ee and obj locations
 
-## Config 1:
+## Config 1: 
+* 10x32x32x8
+* update_frequency = 8
+* target_update_frequency = 200
+* lr = 0.001
+* epsilon = 0.8
+* epsilon_decay = 0.998
+* epsilon_min = 0.1
+* batch_size=64
+* gamma=0.95
+* buffer_size=1000000
+
+![fig](https://github.com/user-attachments/assets/74c3b32d-f9e3-4188-99f0-e4d6aecc13de)
+
+## Config 2:
 * 10x64x8 network
 * update_frequency = 8
 * target_update_frequency = 200
@@ -52,18 +66,16 @@ def custom_reward(self, state, prev_state):
 
 ![image](https://github.com/user-attachments/assets/b3b8a15b-be3a-4020-9e59-bf043755247b)
 
+## Conclusion
+- Config 2 did not perform well, indicating that it failed to learn effectively. As a result, Config 1 was chosen for further training.
+- The reward plot shows an upward trend, confirming that the model is learning over time.
+- The model was trained for approximately 10 hours, but additional training time is needed to achieve better performance.
 
-## Config 2: 
-* 10x32x32x8
-* update_frequency = 8
-* target_update_frequency = 200
-* lr = 0.001
-* epsilon = 0.8
-* epsilon_decay = 0.998
-* epsilon_min = 0.1
-* batch_size=64
-* gamma=0.95
-* buffer_size=1000000
 
-![image](https://github.com/user-attachments/assets/7afd10dd-ba77-4538-ab3f-081d39fb8c0f)
+
+
+
+
+
+
 
