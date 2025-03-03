@@ -18,7 +18,7 @@ class Hw2Env(environment.BaseEnv):
         actions = np.stack([np.cos(theta), np.sin(theta)], axis=1)
         self._actions = {i: action for i, action in enumerate(actions)}
 
-        self._goal_thresh = 0.01
+        self._goal_thresh = 0.02
         self._max_timesteps = 50
 
     def _create_scene(self, seed=None):
@@ -64,6 +64,21 @@ class Hw2Env(environment.BaseEnv):
         ee_to_obj = max(100*np.linalg.norm(ee_pos - obj_pos), 1)
         obj_to_goal = max(100*np.linalg.norm(obj_pos - goal_pos), 1)
         return 1/(ee_to_obj) + 1/(obj_to_goal)
+    
+    def custom_reward(self, state, prev_state):
+        prev_obj_pos = prev_state[2:4]
+        obj_pos = state[2:4]
+        goal_pos = state[4:6]
+        
+        prev_obj_to_goal = np.linalg.norm(prev_obj_pos - goal_pos)
+        obj_to_goal = np.linalg.norm(obj_pos - goal_pos)
+        diff = prev_obj_to_goal - obj_to_goal
+
+        prev_ee_to_obj = np.linalg.norm(prev_state[:2] - prev_obj_pos)
+        ee_to_obj = np.linalg.norm(state[:2] - obj_pos)
+        ee_diff = prev_ee_to_obj - ee_to_obj
+
+        return diff * 2 + ee_diff * 0.5 - 0.001
 
     def is_terminal(self):
         obj_pos = self.data.body("obj1").xpos[:2]
@@ -74,6 +89,8 @@ class Hw2Env(environment.BaseEnv):
         return self._t >= self._max_timesteps
 
     def step(self, action_id):
+        prev_state = self.high_level_state()
+
         action = self._actions[action_id] * self._delta
         ee_pos = self.data.site(self._ee_site).xpos[:2]
         target_pos = np.concatenate([ee_pos, [1.06]])
@@ -81,27 +98,10 @@ class Hw2Env(environment.BaseEnv):
         self._set_ee_in_cartesian(target_pos, rotation=[-90, 0, 180], n_splits=30, threshold=0.04)
         self._t += 1
 
-        state = self.state()
-        reward = self.reward()
+        state = self.high_level_state()
         terminal = self.is_terminal()
         truncated = self.is_truncated()
+        reward = self.custom_reward(state, prev_state) if not terminal else 10
         return state, reward, terminal, truncated
 
 
-if __name__ == "__main__":
-    N_ACTIONS = 8
-    env = Hw2Env(n_actions=N_ACTIONS, render_mode="gui")
-    for episode in range(10):
-        env.reset()
-        done = False
-        cumulative_reward = 0.0
-        episode_steps = 0
-        start = time.time()
-        while not done:
-            action = np.random.randint(N_ACTIONS)
-            state, reward, is_terminal, is_truncated = env.step(action)
-            done = is_terminal or is_truncated
-            cumulative_reward += reward
-            episode_steps += 1
-        end = time.time()
-        print(f"Episode={episode}, reward={cumulative_reward}, RPS={cumulative_reward/episode_steps}")
