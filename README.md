@@ -60,7 +60,7 @@ def custom_reward(self, state, prev_state):
 * gamma=0.95
 * buffer_size=1000000
 
-![fig-2](https://github.com/user-attachments/assets/b0270d90-6469-4615-b8eb-22055e73b8a3)
+![training_progress](https://github.com/user-attachments/assets/a45f9445-9491-4c6f-b980-4341336677e3)
 
 ## Config 2:
 * 10x64x8 network
@@ -79,7 +79,7 @@ def custom_reward(self, state, prev_state):
 ## Conclusion
 - Config 2 did not perform well, indicating that it failed to learn effectively. As a result, Config 1 was chosen for further training.
 - The reward plot shows an upward trend, confirming that the model is learning over time.
-- The model was trained for approximately 24 hours, but additional training time is needed to achieve better performance.
+- The model was trained for approximately 24 hours, but additional training time is needed to achieve perfect performance.
 
 
 
