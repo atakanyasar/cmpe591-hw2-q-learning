@@ -1,4 +1,4 @@
-## Examples
+## Simulations After 10 Hours of Training
 https://github.com/user-attachments/assets/c8b78d69-9113-4db7-a81e-93b7d8872999
 
 
@@ -7,6 +7,13 @@ https://github.com/user-attachments/assets/86785d21-764c-47cc-b903-380cbc85ae29
 
 https://github.com/user-attachments/assets/94c52998-ae1b-45cd-b6a6-9308888e11a4
 
+# Simulations After 24 Hours of Training
+
+
+https://github.com/user-attachments/assets/d11390d1-45b6-48b7-8a43-0c71c57dbe14
+
+
+https://github.com/user-attachments/assets/9c1e4deb-64e0-4858-ba65-a65b7335eb40
 
 
 ## Run
@@ -14,7 +21,10 @@ https://github.com/user-attachments/assets/94c52998-ae1b-45cd-b6a6-9308888e11a4
 ```
 python train.py
 ```
-* To test: run `test.ipynb`
+* For test:
+```
+python test.py
+```
 
 ## Reward function
 ```py
@@ -50,7 +60,7 @@ def custom_reward(self, state, prev_state):
 * gamma=0.95
 * buffer_size=1000000
 
-![fig](https://github.com/user-attachments/assets/74c3b32d-f9e3-4188-99f0-e4d6aecc13de)
+![fig-2](https://github.com/user-attachments/assets/b0270d90-6469-4615-b8eb-22055e73b8a3)
 
 ## Config 2:
 * 10x64x8 network
@@ -69,7 +79,7 @@ def custom_reward(self, state, prev_state):
 ## Conclusion
 - Config 2 did not perform well, indicating that it failed to learn effectively. As a result, Config 1 was chosen for further training.
 - The reward plot shows an upward trend, confirming that the model is learning over time.
-- The model was trained for approximately 10 hours, but additional training time is needed to achieve better performance.
+- The model was trained for approximately 24 hours, but additional training time is needed to achieve better performance.
 
 
 
